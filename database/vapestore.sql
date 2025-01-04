@@ -1,91 +1,95 @@
-CREATE DATABASE VapeStore;
-
-USE VapeStore;
-
--- Table Utilisateurs
-CREATE TABLE utilisateurs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL,
-    role ENUM('utilisateur', 'admin', 'service_client') DEFAULT 'utilisateur',
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table Produits
-CREATE TABLE produits (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL,
-    description TEXT,
-    prix DECIMAL(10, 2) NOT NULL,
-    stock INT DEFAULT 0,
-    categorie VARCHAR(50),
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Table Commandes
-CREATE TABLE commandes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT NOT NULL,
-    total DECIMAL(10, 2) NOT NULL,
-    statut ENUM('en attente', 'en cours', 'livré', 'annulé') DEFAULT 'en attente',
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
-);
-
--- Table Avis
-CREATE TABLE avis (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    produit_id INT NOT NULL,
-    utilisateur_id INT NOT NULL,
-    commentaire TEXT,
-    note INT CHECK (note >= 1 AND note <= 5),
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (produit_id) REFERENCES produits(id),
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id)
-);
-
--- Table Retours
-CREATE TABLE retours (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    commande_id INT NOT NULL,
-    produit_id INT NOT NULL,
-    raison TEXT,
-    statut ENUM('en attente', 'traité', 'refusé') DEFAULT 'en attente',
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (commande_id) REFERENCES commandes(id),
-    FOREIGN KEY (produit_id) REFERENCES produits(id)
+use VapeStore;
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    nom VARCHAR(100) NOT NULL, -- Nom de l'utilisateur
+    email VARCHAR(100) NOT NULL UNIQUE, -- Adresse email unique
+    mot_de_passe VARCHAR(255) NOT NULL, -- Mot de passe sécurisé
+    role ENUM('utilisateur', 'administrateur', 'support') DEFAULT 'utilisateur', -- Rôle de l'utilisateur
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Date d'inscription
 );
 CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL,
-    description TEXT,
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    nom VARCHAR(100) NOT NULL, -- Nom de la catégorie
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Date de création de la catégorie
 );
-CREATE TABLE paiements (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    commande_id INT NOT NULL,
-    methode ENUM('carte', 'paypal', 'virement') NOT NULL,
-    statut ENUM('en attente', 'réussi', 'échoué') DEFAULT 'en attente',
-    date_paiement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (commande_id) REFERENCES commandes(id)
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    nom VARCHAR(255) NOT NULL, -- Nom du produit
+    description TEXT, -- Description détaillée du produit
+    prix DECIMAL(10, 2) NOT NULL, -- Prix du produit
+    stock INT NOT NULL DEFAULT 0, -- Quantité en stock
+    categorie_id INT, -- Référence à la catégorie
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création du produit
+    FOREIGN KEY (categorie_id) REFERENCES categories(id) -- Clé étrangère vers la table categories
 );
-CREATE TABLE favoris (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT NOT NULL,
-    produit_id INT NOT NULL,
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id),
-    FOREIGN KEY (produit_id) REFERENCES produits(id)
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique de la commande
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant passé la commande
+    montant_total DECIMAL(10, 2) NOT NULL, -- Montant total de la commande
+    statut ENUM('en_attente', 'terminée', 'annulée') DEFAULT 'en_attente', -- Statut de la commande
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création de la commande
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
 );
-CREATE TABLE livraisons (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    commande_id INT NOT NULL,
-    adresse_livraison TEXT NOT NULL,
-    statut ENUM('préparée', 'en cours', 'livrée', 'annulée') DEFAULT 'préparée',
-    date_livraison TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (commande_id) REFERENCES commandes(id)
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    commande_id INT NOT NULL, -- Référence à la commande
+    produit_id INT NOT NULL, -- Référence au produit
+    quantite INT NOT NULL, -- Quantité commandée
+    prix DECIMAL(10, 2) NOT NULL, -- Prix du produit au moment de la commande
+    FOREIGN KEY (commande_id) REFERENCES orders(id), -- Clé étrangère vers la table orders
+    FOREIGN KEY (produit_id) REFERENCES products(id) -- Clé étrangère vers la table products
 );
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    produit_id INT NOT NULL, -- Référence au produit
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant laissé l'avis
+    note INT CHECK(note BETWEEN 1 AND 5), -- Note entre 1 et 5
+    commentaire TEXT, -- Commentaire de l'utilisateur
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création de l'avis
+    FOREIGN KEY (produit_id) REFERENCES products(id), -- Clé étrangère vers la table products
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
+);
+CREATE TABLE returns (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    commande_id INT NOT NULL, -- Référence à la commande
+    produit_id INT NOT NULL, -- Référence au produit
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant demandé le retour
+    raison TEXT NOT NULL, -- Raison du retour
+    statut ENUM('en_attente', 'accepté', 'rejeté') DEFAULT 'en_attente', -- Statut du retour
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création de la demande
+    FOREIGN KEY (commande_id) REFERENCES orders(id), -- Clé étrangère vers la table orders
+    FOREIGN KEY (produit_id) REFERENCES products(id), -- Clé étrangère vers la table products
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
+);
+CREATE TABLE queries (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant posé la question
+    message TEXT NOT NULL, -- Contenu de la requête
+    reponse TEXT, -- Réponse à la requête
+    statut ENUM('ouverte', 'répondue') DEFAULT 'ouverte', -- Statut de la requête
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création de la requête
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
+);
+CREATE TABLE technical_issues (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant signalé le problème
+    description TEXT NOT NULL, -- Description du problème
+    statut ENUM('ouvert', 'en_cours', 'résolu') DEFAULT 'ouvert', -- Statut du problème
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de création du signalement
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
+);
+CREATE TABLE payments (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- Identifiant unique
+    commande_id INT NOT NULL, -- Référence à la commande
+    utilisateur_id INT NOT NULL, -- Référence à l'utilisateur ayant effectué le paiement
+    montant DECIMAL(10, 2) NOT NULL, -- Montant payé
+    methode ENUM('carte_credit', 'paypal', 'virement', 'espèces') DEFAULT 'carte_credit', -- Méthode de paiement
+    statut ENUM('en_attente', 'terminé', 'échoué') DEFAULT 'en_attente', -- Statut du paiement
+    date_transaction TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date de la transaction
+    FOREIGN KEY (commande_id) REFERENCES orders(id), -- Clé étrangère vers la table orders
+    FOREIGN KEY (utilisateur_id) REFERENCES users(id) -- Clé étrangère vers la table users
+);
+
 
 
 

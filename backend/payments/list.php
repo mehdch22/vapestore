@@ -1,17 +1,15 @@
 <?php
-include '../db.php'; // Inclure la connexion à la base de données
+include '../db.php'; // Connexion à la base de données
+include '../utils.php'; // Fonctions utilitaires
 
-// Récupérer les données JSON envoyées via Postman
-$data = json_decode(file_get_contents('php://input'), true);
-
-// Vérifier si commande_id ou utilisateur_id est fourni
-if (!isset($data['commande_id']) && !isset($data['utilisateur_id'])) {
-    echo json_encode(["message" => "Vous devez fournir commande_id ou utilisateur_id."]);
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    json_response("error", null, "Méthode HTTP invalide.");
     exit;
 }
 
-$commande_id = $data['commande_id'] ?? null;
-$utilisateur_id = $data['utilisateur_id'] ?? null;
+// Récupérer les paramètres GET (commande_id ou utilisateur_id)
+$commande_id = isset($_GET['commande_id']) ? intval($_GET['commande_id']) : null;
+$utilisateur_id = isset($_GET['utilisateur_id']) ? intval($_GET['utilisateur_id']) : null;
 
 // Construire la requête en fonction des paramètres fournis
 if ($commande_id) {
@@ -20,21 +18,19 @@ if ($commande_id) {
 } elseif ($utilisateur_id) {
     $query = $conn->prepare("SELECT * FROM payments WHERE utilisateur_id = ?");
     $query->bind_param("i", $utilisateur_id);
+} else {
+    json_response("error", null, "Vous devez fournir commande_id ou utilisateur_id.");
+    exit;
 }
 
 $query->execute();
 $result = $query->get_result();
 
-$payments = [];
-
-// Parcourir les résultats
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $payments[] = $row;
-    }
-    echo json_encode($payments);
+    $payments = $result->fetch_all(MYSQLI_ASSOC);
+    json_response("success", $payments, "Paiements récupérés avec succès.");
 } else {
-    echo json_encode(["message" => "Aucun paiement trouvé."]);
+    json_response("error", null, "Aucun paiement trouvé.");
 }
 
 $conn->close();

@@ -22,7 +22,7 @@ if (!isset($data['nom'], $data['email'], $data['mot_de_passe'])) {
 // Nettoyer et valider les données
 $nom = htmlspecialchars(strip_tags(trim($data['nom'])));
 $email = htmlspecialchars(strip_tags(trim($data['email'])));
-$mot_de_passe = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT); // Hachage sécurisé du mot de passe
+$mot_de_passe = htmlspecialchars(strip_tags(trim($data['mot_de_passe']))); // Mot de passe en texte clair
 $role = isset($data['role']) ? htmlspecialchars(strip_tags(trim($data['role']))) : 'utilisateur'; // Rôle par défaut : utilisateur
 
 // Vérifier si le rôle est valide

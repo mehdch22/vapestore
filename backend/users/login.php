@@ -22,11 +22,10 @@ $query->execute();
 $result = $query->get_result();
 
 if ($result->num_rows > 0) {
-    // Récupérer les données de l'utilisateur
     $utilisateur = $result->fetch_assoc();
-    
-    // Vérifier le mot de passe
-    if (password_verify($mot_de_passe, $utilisateur['mot_de_passe'])) {
+
+    // Comparer le mot de passe directement (pas de hash)
+    if ($mot_de_passe === $utilisateur['mot_de_passe']) {
         echo json_encode([
             "message" => "Connexion réussie !",
             "utilisateur" => [
@@ -43,4 +42,6 @@ if ($result->num_rows > 0) {
     echo json_encode(["message" => "Email non trouvé."]);
 }
 
-// Fermer l
+// Fermer la connexion
+$conn->close();
+?>

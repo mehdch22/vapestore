@@ -34,31 +34,27 @@ $user_role = $role_result->fetch_assoc()['role'];
 check_role('administrateur', $user_role);
 
 // Vérifier les champs obligatoires
-if (!isset($data['id'], $data['nom'], $data['prix'], $data['stock'])) {
-    json_response("error", null, "Les champs id, nom, prix et stock sont obligatoires.");
+if (!isset($data['id'], $data['nom'])) {
+    json_response("error", null, "Les champs id et nom sont obligatoires.");
     exit;
 }
 
-// Assigner les données à des variables
 $id = $data['id'];
 $nom = htmlspecialchars(strip_tags(trim($data['nom'])));
 $description = htmlspecialchars(strip_tags(trim($data['description'] ?? '')));
-$prix = $data['prix'];
-$stock = $data['stock'];
-$categorie_id = $data['categorie_id'] ?? null;
 
-// Mettre à jour le produit dans la base de données
-$query = $conn->prepare("UPDATE products SET nom = ?, description = ?, prix = ?, stock = ?, categorie_id = ? WHERE id = ?");
-$query->bind_param("ssdiii", $nom, $description, $prix, $stock, $categorie_id, $id);
+// Mettre à jour la catégorie
+$query = $conn->prepare("UPDATE categories SET nom = ?, description = ? WHERE id = ?");
+$query->bind_param("ssi", $nom, $description, $id);
 
 if ($query->execute()) {
     if ($query->affected_rows > 0) {
-        json_response("success", null, "Produit mis à jour avec succès !");
+        json_response("success", null, "Catégorie mise à jour avec succès !");
     } else {
-        json_response("error", null, "Aucun produit trouvé avec cet ID.");
+        json_response("error", null, "Aucune catégorie trouvée avec cet ID.");
     }
 } else {
-    json_response("error", null, "Erreur lors de la mise à jour du produit. Veuillez réessayer.");
+    json_response("error", null, "Erreur lors de la mise à jour de la catégorie.");
 }
 
 $conn->close();

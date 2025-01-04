@@ -1,12 +1,41 @@
 <?php
-include '../db.php'; // Inclure la connexion à la base de données
+include '../db.php'; // Connexion à la base de données
+include '../utils.php'; // Fonctions utilitaires
+
+if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    header('Content-Type: application/json');
+    echo json_encode(["status" => "error", "message" => "Méthode HTTP invalide."]);
+    exit;
+}
 
 // Récupérer les données JSON envoyées via Postman
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Vérifier si l'ID est présent
+// Vérifier si l'utilisateur est un administrateur
+$utilisateur_id = $data['utilisateur_id'] ?? null;
+
+if (!$utilisateur_id) {
+    json_response("error", null, "L'identifiant utilisateur est requis.");
+    exit;
+}
+
+// Récupérer le rôle de l'utilisateur
+$role_query = $conn->prepare("SELECT role FROM users WHERE id = ?");
+$role_query->bind_param("i", $utilisateur_id);
+$role_query->execute();
+$role_result = $role_query->get_result();
+
+if ($role_result->num_rows === 0) {
+    json_response("error", null, "Utilisateur introuvable.");
+    exit;
+}
+
+$user_role = $role_result->fetch_assoc()['role'];
+check_role('administrateur', $user_role);
+
+// Vérifier que l'ID est présent
 if (!isset($data['id'])) {
-    echo json_encode(["message" => "L'ID du produit est obligatoire."]);
+    json_response("error", null, "L'ID du produit est obligatoire.");
     exit;
 }
 
@@ -18,12 +47,12 @@ $query->bind_param("i", $id);
 
 if ($query->execute()) {
     if ($query->affected_rows > 0) {
-        echo json_encode(["message" => "Produit supprimé avec succès !"]);
+        json_response("success", null, "Produit supprimé avec succès !");
     } else {
-        echo json_encode(["message" => "Aucun produit trouvé avec cet ID."]);
+        json_response("error", null, "Aucun produit trouvé avec cet ID.");
     }
 } else {
-    echo json_encode(["message" => "Erreur lors de la suppression du produit.", "error" => $conn->error]);
+    json_response("error", null, "Erreur lors de la suppression du produit.");
 }
 
 $conn->close();

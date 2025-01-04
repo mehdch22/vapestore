@@ -1,0 +1,955 @@
+{
+	"info": {
+		"_postman_id": "f52d9ca6-e494-4ba9-a9cc-b78684521535",
+		"name": "VapeStore API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37357518"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nom\": \"John Doe\",\r\n    \"email\": \"johndoe@gmail.com\",\r\n    \"mot_de_passe\": \"123456\",\r\n    \"role\": \"utilisateur\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/users/register.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"users",
+						"register.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"email\": \"azert@example.com\",\r\n    \"mot_de_passe\": \"mypassword123\"\r\n   \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/users/login.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"users",
+						"login.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 2,\r\n    \"nom\": \"Cigarette Électronique\",\r\n    \"description\": \"Une cigarette électronique avec batterie intégrée.\",\r\n    \"prix\": 49.99,\r\n    \"stock\": 100,\r\n    \"categorie_id\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/products/add.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"products",
+						"add.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/products/list.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"products",
+						"list.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 2,\r\n    \"id\": 6,\r\n    \"nom\": \"Cigarette Électronique Modifiée\",\r\n    \"description\": \"Cigarette électronique avec options avancées.\",\r\n    \"prix\": 59.99,\r\n    \"stock\": 80,\r\n    \"categorie_id\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/products/update.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"products",
+						"update.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 2,\r\n    \"id\": 18\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/products/delete.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"products",
+						"delete.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/orders/create.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"orders",
+						"create.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 2,\r\n    \"order_id\": 2,\r\n    \"statut\": \"terminée\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/orders/update_status.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"orders",
+						"update_status.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Payment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commande_id\": 1,\r\n    \"utilisateur_id\": 1,\r\n    \"montant\": 239.88,\r\n    \"methode\": \"carte_credit\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/payments/add.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"payments",
+						"add.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Payments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/payments/list.php?commande_id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"payments",
+						"list.php"
+					],
+					"query": [
+						{
+							"key": "commande_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Payment Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1,\r\n    \"payment_id\": 1,\r\n    \"statut\": \"terminé\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/payments/update_payment.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"payments",
+						"update_payment.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Return",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commande_id\": 1,\r\n    \"produit_id\": 2,\r\n    \"utilisateur_id\": 1,\r\n    \"raison\": \"Produit défectueux.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/returns/add_return.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"returns",
+						"add_return.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Returns",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/returns/get_return.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"returns",
+						"get_return.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Return Status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1,\r\n    \"return_id\": 2,\r\n    \"statut\": \"accepté\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/returns/update_return.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"returns",
+						"update_return.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ajouter un Journal d'Activité",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1,\r\n    \"action\": \"Mise à jour du statut de la commande ID 5 à terminée.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/logs/add.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"logs",
+						"add.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Liste des Journaux d'Activité",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/logs/list.php?utilisateur_id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"logs",
+						"list.php"
+					],
+					"query": [
+						{
+							"key": "utilisateur_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ajouter une catégorie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nom\": \"Box Mods\",\r\n  \"description\": \"Catégorie dédiée aux appareils de type box mods.\",\r\n  \"utilisateur_id\": 2\r\n  \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/categories/add_category.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"categories",
+						"add_category.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lister les catégories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/categories/get_category.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"categories",
+						"get_category.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mettre à jour une catégorie",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 1,\r\n  \"nom\": \"Mods Avancés\",\r\n  \"description\": \"Catégorie mise à jour pour les appareils avancés.\",\r\n  \"utilisateur_id\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/categories/update_category.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"categories",
+						"update_category.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer une catégorie",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 5,\r\n   \"utilisateur_id\": 2\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/categories/delete_category.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"categories",
+						"delete_category.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ajouter un avis",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1,\r\n    \"produit_id\": 2,\r\n    \"note\": 5,\r\n    \"commentaire\": \"Super produit, je recommande !\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/reviews/add_review.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"reviews",
+						"add_review.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lister les avis pour un produit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/reviews/get_reviews.php?produit_id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"reviews",
+						"get_reviews.php"
+					],
+					"query": [
+						{
+							"key": "produit_id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ajouter un produit au panier",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": 1,\r\n    \"product_id\": 2,\r\n    \"quantity\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/cart/add.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"cart",
+						"add.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Afficher le panier d’un utilisateur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/cart/list.php?user_id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"cart",
+						"list.php"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mettre à jour la quantité d’un produit dans le panier",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cart_id\": 1,\r\n    \"quantity\": 3\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/cart/update.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"cart",
+						"update.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprimer un produit du panier",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cart_id\": 4\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/cart/delete.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"cart",
+						"delete.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add delivery",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commande_id\": 1,\r\n    \"utilisateur_id\": 2,\r\n    \"adresse_livraison\": \"123 Rue Exemple, 75001 Paris\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/deliveries/add_delivery.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"deliveries",
+						"add_delivery.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update deliveries",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"statut\": \"livrée\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/deliveries/update_delivery.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"deliveries",
+						"update_delivery.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get deliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/deliveries/get_deliveries.php?commande_id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"deliveries",
+						"get_deliveries.php"
+					],
+					"query": [
+						{
+							"key": "commande_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"utilisateur_id\": 1,\r\n    \"message\": \"J'ai une question sur ma commande.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/queries/add_query.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"queries",
+						"add_query.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get query",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/vapestore/backend/queries/get_queries.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"queries",
+						"get_queries.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "respond query",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"reponse\": \"Votre commande sera livrée sous 48 heures.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/vapestore/backend/queries/respond_query.php",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"vapestore",
+						"backend",
+						"queries",
+						"respond_query.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

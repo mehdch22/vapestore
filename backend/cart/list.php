@@ -1,16 +1,13 @@
 <?php
 include '../db.php'; // Inclure la connexion à la base de données
 
-// Récupérer les données JSON envoyées via Postman
-$data = json_decode(file_get_contents('php://input'), true);
-
-// Vérifier si l'ID de l'utilisateur est fourni
-if (!isset($data['user_id'])) {
+// Vérifier si l'ID de l'utilisateur est fourni dans les paramètres d'URL
+if (!isset($_GET['user_id'])) {
     echo json_encode(["message" => "L'ID de l'utilisateur est obligatoire."]);
     exit;
 }
 
-$user_id = $data['user_id'];
+$user_id = intval($_GET['user_id']); // Récupérer et convertir l'ID en entier
 
 // Requête pour récupérer les articles du panier avec les détails des produits
 $query = $conn->prepare("
@@ -30,7 +27,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $cart_items[] = $row;
     }
-    echo json_encode($cart_items);
+    echo json_encode(["cart" => $cart_items]);
 } else {
     echo json_encode(["message" => "Le panier est vide."]);
 }

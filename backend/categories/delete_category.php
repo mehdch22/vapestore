@@ -3,8 +3,7 @@ include '../db.php'; // Connexion à la base de données
 include '../utils.php'; // Fonctions utilitaires
 
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
-    header('Content-Type: application/json');
-    echo json_encode(["status" => "error", "message" => "Méthode HTTP invalide."]);
+    json_response("error", null, "Méthode HTTP invalide.");
     exit;
 }
 
@@ -41,12 +40,24 @@ if (!isset($data['id'])) {
 
 $id = $data['id'];
 
-// Supprimer la catégorie
-$query = $conn->prepare("DELETE FROM categories WHERE id = ?");
-$query->bind_param("i", $id);
+// Vérifier si des produits sont associés à la catégorie
+$query_check_products = $conn->prepare("SELECT COUNT(*) as count FROM products WHERE categorie_id = ?");
+$query_check_products->bind_param("i", $id);
+$query_check_products->execute();
+$result = $query_check_products->get_result();
+$row = $result->fetch_assoc();
 
-if ($query->execute()) {
-    if ($query->affected_rows > 0) {
+if ($row['count'] > 0) {
+    json_response("error", null, "Impossible de supprimer cette catégorie car elle est associée à des produits.");
+    exit;
+}
+
+// Supprimer la catégorie
+$query_delete_category = $conn->prepare("DELETE FROM categories WHERE id = ?");
+$query_delete_category->bind_param("i", $id);
+
+if ($query_delete_category->execute()) {
+    if ($query_delete_category->affected_rows > 0) {
         json_response("success", null, "Catégorie supprimée avec succès !");
     } else {
         json_response("error", null, "Aucune catégorie trouvée avec cet ID.");
